@@ -22,8 +22,8 @@ class JobFactory extends Factory
             'title' => $this->faker->randomElement($jobTitles),
             'description' => $this->faker->randomElement($descriptions),
             'salary' => $this->faker->numberBetween(20000, 100000),
-            'city_id' => random_int(1, 10), // Replace with your city ID range
-            'category_id' => random_int(1, 10), // Replace with your category ID range
+            'city_id' => random_int(1,1), // Replace with your city ID range
+            'category_id' => random_int(1, 1), // Replace with your category ID range
             'type' => $this->faker->randomElement($types),
             'country_id' => random_int(1, 10),
             'datePosted' => $this->faker->date(),

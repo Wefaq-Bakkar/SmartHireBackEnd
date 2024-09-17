@@ -1,21 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCountryRequest;
 use App\Http\Requests\UpdateCountryRequest;
 use App\Http\Resources\CountryResource;
 use App\Models\Country;
+use Illuminate\Http\Request;
 
 class CountryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $country = Country::all();
-        return CountryResource::collection($country);
+        $countries = Country::filter($request->all())->paginate(10);
+        return CountryResource::collection($countries);
     }
     public function indexForGuest()
     {
@@ -31,7 +33,6 @@ class CountryController extends Controller
         $country = Country::create($data);
         return new CountryResource($country);
     }
-
     /**
      * Display the specified resource.
      */
@@ -40,7 +41,6 @@ class CountryController extends Controller
         $country->load('cities');
         return new CountryResource($country);
     }
-
     /**
      * Update the specified resource in storage.
      */
@@ -53,7 +53,6 @@ class CountryController extends Controller
             return response()->json(['message' => 'Not found'], 404);
         }
     }
-
     /**
      * Remove the specified resource from storage.
      */

@@ -12,14 +12,23 @@ class JobController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index (Request $request)
+    public function index(Request $request)
     {
         $user = $request->user();
-        return JobResource::collection(Job::where('user_id', $user->id)->paginate(10));
+        return JobResource::collection(
+            Job::where('user_id', $user->id)
+                ->where('status', 'publish')
+                ->orderBy('created_at', 'desc')
+                ->filter($request->all())
+                ->paginate(10)
+        );
     }
     public function indexForGuest(Request $request)
     {
-        $jobs = Job::paginate(10);
+        $jobs = Job::where('status', 'publish')
+            ->orderBy('created_at', 'desc')
+            ->filter($request->all())
+            ->paginate(10);
         return JobResource::collection($jobs);
     }
 
@@ -44,6 +53,16 @@ class JobController extends Controller
         }
         return new JobResource($job);
     }
+    public function showForGust($id)
+    {
+        $job=Job::find($id);
+        if($job){
+            return new JobResource($job);
+        }else {
+            return response()->json(['No job found'],404);
+        }
+    }
+
 
     /**
      * Update the specified resource in storage.

@@ -20,6 +20,10 @@ class ApplicationResource extends JsonResource
             'seeker_id'=>$this->seeker,
             'application_status' => $this->application_status,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,];
+            'updated_at' => $this->updated_at,
+            'Matching_percentage'=>$this->Matching_percentage,
+            'file_path' => $this->seeker->resume->file_path ?? null,
+
+        ];
     }
 }

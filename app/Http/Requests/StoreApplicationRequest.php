@@ -23,8 +23,10 @@ class StoreApplicationRequest extends FormRequest
     {
         return [
             'job_id' => 'required|exists:jobs,id',
-            'user_id' => 'required|exists:users,id',
+            'seeker_id' => 'required',
+            'specialist_id'=>'required',
             'application_status' => 'required|in:screening,in-review,interview-scheduled,on-hold,rejected,offered,offer-accepted,offer-declined,hired',
+            'Matching_percentage'=>'required',
         ];
     }
 }

@@ -17,8 +17,8 @@ class StoreJobRequest extends FormRequest
     public function prepareForValidation()
     {
         $this->merge(
-            ['user_id'=>$this->user()->id]
-        )   ;
+            ['user_id' => $this->user()->id]
+        );
     }
 
     /**
@@ -31,14 +31,26 @@ class StoreJobRequest extends FormRequest
         return [
             'title' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'salary' => ['required', 'integer'],
+            'salary' => ['required', 'numeric'],
             'city_id' => ['required', 'exists:cities,id'],
-            'country_id'=>['required', 'exists:countries,id'],
+            'country_id' => ['required', 'exists:countries,id'],
             'category_id' => ['required', 'exists:categories,id'],
             'type' => ['required', 'in:full time,part time,contract,freelance,remote'],
             'datePosted' => ['required', 'date'],
             'user_id' => ['required', 'exists:users,id'],
             'status' => ['required', 'in:draft,publish,closed'],
+        ];
+    }
+
+    /**
+     * Get the custom validation messages.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'salary.numeric' => 'The salary must be a number.',
         ];
     }
 }
